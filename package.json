@@ -1,0 +1,44 @@
+{
+  "name": "core-eos-oidc-authorizer",
+  "version": "1.0.0",
+  "description": "AWS Gateway Authorizer designed to work with Core EOS OIDC solution",
+  "main": "dist/index.js",
+  "author": "United Effects LLL",
+  "person": {
+    "name": "Bo Motlagh",
+    "email": "bmotlagh@unitedeffects.com",
+    "url": "https://unitedeffects.com"
+  },
+  "homepage": "https://unitedeffect",
+  "bugs": {
+    "url": "https://github.com/UnitedEffects/ueauth/issues",
+    "email": "team@unitedeffects.com"
+  },
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "babel src -d dist",
+    "package": "yarn build && sls package",
+    "deploy": "yarn build && sls deploy",
+    "simple-deploy": "sls deploy"
+  },
+  "keywords": [
+    "aws",
+    "api-gateway",
+    "unitedeffects",
+    "coreeos",
+    "custom-authorizer",
+    "authentication",
+    "oidc",
+    "lambda"
+  ],
+  "dependencies": {
+    "axios": "^0.27.2",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^2.1.1"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.1130.0",
+    "lambda-local": "^2.0.2"
+  }
+}

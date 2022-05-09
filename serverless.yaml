@@ -1,0 +1,27 @@
+service: ${env:NAME, file(./package.json):name}
+frameworkVersion: '3'
+variablesResolutionMode: 20210326
+custom:
+  local_env: ${sls:stage, 'test'}
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+  timeout: 30
+  lambdaHashingVersion: 20201221
+  environment:
+    ENV: ${env:ENV, file(./.env/env.${self:custom.local_env}.json):ENV}
+    JWKS_URI: ${env:JWKS_URI, file(./.env/env.${self:custom.local_env}.json):JWKS_URI}
+    CORE_URI: ${env:CORE_URI, file(./.env/env.${self:custom.local_env}.json):CORE_URI}
+    AUTH_GROUP: ${env:AUTH_GROUP, file(./.env/env.${self:custom.local_env}.json):AUTH_GROUP}
+    AUD: ${env:AUD, file(./.env/env.${self:custom.local_env}.json):AUD}
+    PKCE: ${env:PKCE, file(./.env/env.${self:custom.local_env}.json):PKCE}
+package:
+  patterns:
+    - '!src/**'
+functions:
+  app:
+    handler: dist/index.handler
+    events:
+      - http: ANY /
+      - http: 'ANY /{proxy+}'

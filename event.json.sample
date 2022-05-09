@@ -1,0 +1,12 @@
+
+{
+  "type": "TOKEN",
+  "authorizationToken": "<Incoming bearer token>",
+  "methodArn": "arn:aws:execute-api:<Region id>:<Account id>:<API id>/<Stage>/<Method>/<Resource path>"
+}
+
+{
+    "type" : "TOKEN",
+    "authorizationToken" : "Bearer ACCESS_TOKEN",
+    "methodArn":"arn:aws:execute-api:us-east-1:1234567890:apiId/stage/method/resourcePath"
+}
