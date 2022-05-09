@@ -123,6 +123,7 @@ curl -X 'POST' \
 -d 'code_verifier=YOUR_VERIFY_VALUE_ABOVE&redirect_uri=YOUR_REDIRECT_URL&code=YOUR_CODE_FROM_STEP_2&resource=YOUR_RESOURCE_FROM_STEP_2&client_id=YOUR_CLIENT_ID_FROM_STEP_1&grant_type=authorization_code'
 ```
 **NOTE: YOU CAN ALSO DO THIS IN SWAGGER AT [AUTH.UNITEDEFFECTS.COM/SWAGGER](https://auth.unitedeffects.com/swagger)**
+
 4. This will result in the following response:
 ```json
 {
