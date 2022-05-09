@@ -16,9 +16,14 @@ provider:
     AUTH_GROUP: ${env:AUTH_GROUP, file(./.env/env.${self:custom.local_env}.json):AUTH_GROUP}
     AUD: ${env:AUD, file(./.env/env.${self:custom.local_env}.json):AUD}
     PKCE: ${env:PKCE, file(./.env/env.${self:custom.local_env}.json):PKCE}
+    CLIENT_ID: ${env:CLIENT_ID, file(./.env/env.${self:custom.local_env}.json):CLIENT_ID}
+    CLIENT_SECRET: ${env:CLIENT_SECRET, file(./.env/env.${self:custom.local_env}.json):CLIENT_SECRET}
+    GET_USER: ${env:GET_USER, file(./.env/env.${self:custom.local_env}.json):GET_USER}
+
 package:
   patterns:
     - '!src/**'
+
 functions:
   app:
     handler: dist/index.handler
