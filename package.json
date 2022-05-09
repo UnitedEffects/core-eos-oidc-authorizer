@@ -39,6 +39,9 @@
   },
   "devDependencies": {
     "aws-sdk": "^2.1130.0",
-    "lambda-local": "^2.0.2"
+    "lambda-local": "^2.0.2",
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3"
   }
 }
