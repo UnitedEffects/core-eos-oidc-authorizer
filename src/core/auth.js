@@ -29,6 +29,7 @@ async function getUser(token) {
 }
 
 async function introspect(token) {
+	if (!CLIENT_ID) throw new Error('Introspection not possible without a client id');
 	const introspection = `${CORE}/${AUTH_GROUP}/token/introspection`;
 	const options = (PKCE !== true) ? {
 		url: introspection,
@@ -62,20 +63,25 @@ async function runDecodedChecks(token, issuer, decoded, authGroup) {
 	if(decoded.nonce) {
 		throw new Error('ID Tokens should not be used for API Access');
 	}
+
 	if(decoded.iss !== issuer) {
 		throw new Error('Token issuer not recognized');
 	}
+
 	if(!decoded.group || decoded.group !== authGroup) {
 		throw new Error('Auth Group does not match or is not present in the token');
 	}
-	if(typeof decoded.aud === 'string') {
-		if(decoded.aud !== AUDIENCE) {
-			throw new Error('Token aud string is not valid');
+
+	if (AUDIENCE) {
+		if(typeof decoded.aud === 'string') {
+			if(decoded.aud !== AUDIENCE) {
+				throw new Error('Token aud string is not valid');
+			}
 		}
-	}
-	if(Array.isArray(decoded.aud)) {
-		if(!decoded.aud.includes(AUDIENCE)) {
-			throw new Error('Token aud array does not include required API audience');
+		if(Array.isArray(decoded.aud)) {
+			if(!decoded.aud.includes(AUDIENCE)) {
+				throw new Error('Token aud array does not include required API audience');
+			}
 		}
 	}
 
