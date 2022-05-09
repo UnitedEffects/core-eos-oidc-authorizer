@@ -1,6 +1,20 @@
 # Core Authorizer for AWS Gateway
 
-AWS Gateway Authorizer designed to work with Core EOS OIDC solution. This solution will validate both Opaque and JWT tokens, assuming appropriate Platform configuration for each.
+AWS Gateway [Custom Authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html) designed to work with [Core EOS](https://unitedeffects.com)  OIDC solution to authorize OAuth2 bearer tokens. This solution will validate both Opaque and JWT tokens, assuming appropriate Platform configuration for each.
+
+## What are Custom Authorizers Exactly?
+
+the AWS API Gateway is an excellent resource that allows you to expose REST APIs to the outside world. To authorize incoming requests with API Gateway, you have 3 options:
+
+1. Cognito User Pools - natively builtin Oauth2 AWS solution
+2. Handled at the Origin - Meaning the services your Gateway is exposing handle authorization themelves without any upstream intervention
+3. Custom Authorizers - A solution whereby a Lambda function intercepts incoming requests to the Gateway, performs any kind of authorization you wish to encode, and then either allows the request to proceed or sends a 401 Unauthorized or 403 Forbidden response if authorization is not warrented.
+
+THis service is a Lambda function that can be used for the third option. It will...,
+
+* Confirm that a bearer token has been passed using the Authorization header
+* Validate the token whether it is JWT or Opaque
+* Ensure that the token adheres to the standards outlined by the [Core EOS](https://unitedeffects.com) solution
 
 ## How Authorization Works
 
@@ -12,6 +26,20 @@ The .env_sample directory has a .env.dev.json file which can be configured as ne
 
 * copy the .env_sample/ directory and create from it a new .env/ directory where you can save your work git will ignore values
 * create a new .env json file for each environment you intend to manage: .env.dev.json, .env.qa.json, .env.production.json
+
+```json
+{
+  "ENV": "dev",
+  "JWKS_URI": "https://auth.unitedeffects.com/YOUR-AUTHGROUP-ID/jwks",
+  "CORE_URI": "https://auth.unitedeffects.com",
+  "AUTH_GROUP": "YOUR-CORE-EOS-AUTHGROUP-ID",
+  "AUD": "yourgatewaydomain.com",
+  "CLIENT_ID": "YOUR-CLIENT-ID",
+  "CLIENT_SECRET": null,
+  "GET_USER": false,
+  "PKCE": false
+}
+```
 
 Keep in mind, that the .env file is always a backup to local environment variables.
 
@@ -31,21 +59,27 @@ Keep in mind, that the .env file is always a backup to local environment variabl
 
 This solution is built in ES6 Javascript and requires you to build before deploy. Lambda functionality will be served from the generated /dist directory. Specifically, the handler when deployed is at dist/index.handler
 
-* yarn build
+```
+yarn build
+```
 
 ## Serverless Deploy
 
 You can deploy this project manually (zipping it up yourself), through CI, or through Serverless locally from your workstation. In the case of manually or through CI, it is assumed that you have a process to set your environment variables. If you are deploying localy with the serverless framework, make sure the serverless.yaml file accounts for any changes you may have made to the code, ensure you have appropriately defined your .env configurations for the environments you require in the above "Configs" section, and follow the instructions below:
 
-* yarn
-* yarn deploy --stage=YOUR-DESIRED-ENV
+```
+yarn
+yarn deploy --stage=YOUR-DESIRED-ENV
+```
 
 For example, if you are deploying to a QA environment:
 
-* yarn deploy --stage=qa
-* This will use the file .env.qa.json to set your environment variables
+```
+yarn deploy --stage=qa
+```
+This will use the file .env.qa.json to set your environment variables
 
-## References
+## Additional References
 
 ### Serverless Configuration to Protect Endpoint
 
