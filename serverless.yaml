@@ -10,7 +10,7 @@ provider:
   timeout: 30
   lambdaHashingVersion: 20201221
   environment:
-    ENV: ${env:ENV, file(./.env/env.${self:custom.local_env}.json):ENV}
+    NODE_ENV: ${env:NODE_ENV, file(./.env/env.${self:custom.local_env}.json):NODE_ENV}
     JWKS_URI: ${env:JWKS_URI, file(./.env/env.${self:custom.local_env}.json):JWKS_URI}
     CORE_URI: ${env:CORE_URI, file(./.env/env.${self:custom.local_env}.json):CORE_URI}
     AUTH_GROUP: ${env:AUTH_GROUP, file(./.env/env.${self:custom.local_env}.json):AUTH_GROUP}

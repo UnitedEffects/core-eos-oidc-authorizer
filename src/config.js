@@ -1,7 +1,7 @@
 const fs = require('fs');
 const env = process.env.NODE_ENV || 'dev';
 const dir = (fs.existsSync('./.env')) ? '.env' : '.env_sample';
-const envVars = require(`../${dir}/env.${env}`);
+const envVars = require(`../${dir}/.env.${env}`);
 
 const config = {
     ENV: process.env.NODE_ENV || envVars.NODE_ENV || 'dev',

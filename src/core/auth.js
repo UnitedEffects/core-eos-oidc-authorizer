@@ -59,7 +59,7 @@ function isJWT(str) {
 	return jwtCheck.test(str);
 }
 
-async function runDecodedChecks(token, issuer, decoded, authGroup) {
+async function runDecodedChecks(token, issuer, decoded, authGroup, jwt) {
 	if(decoded.nonce) {
 		throw new Error('ID Tokens should not be used for API Access');
 	}
@@ -95,7 +95,7 @@ async function runDecodedChecks(token, issuer, decoded, authGroup) {
 		throw new Error('Subject ID must be part of the token');
 	}
 
-	if(GET_USER) {
+	if(GET_USER && jwt !== true) {
 		if(decoded.sub && decoded.client_id !== decoded.sub) {
 			let user;
 			if(decoded.email) {
@@ -131,23 +131,22 @@ export default {
 				jwksRequestsPerMinute: 10,
 				jwksUri
 			});
-			function getKey(header, cb) {
-				client.getSigningKey(header.kid, (err, key) => {
-					if(err) cb(err);
-					const signingKey = key.getPublicKey || key.rsaPublicKey;
-					cb(null, signingKey);
-				})
+			const pre = jwt.decode(token, { complete: true });
+			if (!pre || !pre.header || !pre.header.kid) {
+				throw new Error('invalid token');
 			}
-			const decoded = await jwt.verify(token, getKey);
+			const key = await client.getSigningKey(pre.header.kid);
+			const signingKey = key.getPublicKey() || key.rsaPublicKey();
+			const decoded = await jwt.verify(token, signingKey);
 			if(decoded) {
-				return runDecodedChecks(token, issuer, decoded, authGroup);
+				return runDecodedChecks(token, issuer, decoded, authGroup, true);
 			}
 		}
 		//opaque
 		const inspect = await introspect(token);
 		if(inspect) {
 			if (inspect.active === false) throw new Error('unauthorized');
-			return runDecodedChecks(token, issuer, inspect, authGroup);
+			return runDecodedChecks(token, issuer, inspect, authGroup, false);
 		}
 		throw new Error('unauthorized');
 	}

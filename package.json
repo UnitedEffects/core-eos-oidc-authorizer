@@ -6,17 +6,18 @@
   "author": "United Effects LLL",
   "person": {
     "name": "Bo Motlagh",
-    "email": "bmotlagh@unitedeffects.com",
+    "email": "bo@unitedeffects.com",
     "url": "https://unitedeffects.com"
   },
-  "homepage": "https://unitedeffect",
+  "homepage": "https://github.com/UnitedEffects/core-eos-oidc-authorizer",
   "bugs": {
-    "url": "https://github.com/UnitedEffects/ueauth/issues",
-    "email": "team@unitedeffects.com"
+    "url": "https://github.com/UnitedEffects/core-eos-oidc-authorizer/issues",
+    "email": "help@unitedeffects.com"
   },
   "license": "MIT",
   "private": false,
   "scripts": {
+    "test": "yarn build && lambda-local --timeout 300 --lambda-path ./dist/index.js --event-path event.json",
     "build": "babel src -d dist",
     "package": "yarn build && sls package",
     "deploy": "yarn build && sls deploy",
@@ -38,10 +39,11 @@
     "jwks-rsa": "^2.1.1"
   },
   "devDependencies": {
-    "aws-sdk": "^2.1130.0",
-    "lambda-local": "^2.0.2",
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3"
+    "@babel/preset-env": "^7.6.3",
+    "aws-sdk": "^2.1130.0",
+    "crypto": "^1.0.1",
+    "lambda-local": "^2.0.2"
   }
 }

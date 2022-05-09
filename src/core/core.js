@@ -34,10 +34,17 @@ export default {
         if(config.ENV !== 'production') console.info(event); // for debug
         const token = findToken(event);
         const validated = await auth.oidcValidate(token);
-        return {
+        const response = {
             principalId: validated.decoded.sub,
             policyDocument: policy('Allow', event.methodArn),
-            context: { scope: validated.decoded?.scope }
+            context: { ...validated.decoded }
+        };
+        if(validated.clientCredential === true) {
+            response.context.clientCredential = true;
         }
+        if(validated.user) {
+            response.context.user = validated.user;
+        }
+        return response;
     }
 }
