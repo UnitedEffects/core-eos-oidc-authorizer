@@ -145,7 +145,7 @@ export default {
 		//opaque
 		const inspect = await introspect(token);
 		if(inspect) {
-			if (inspect.active === false) throw new Error('unauthorized');
+			if (inspect.active === false) throw new Error('unauthorized opaque token');
 			return runDecodedChecks(token, issuer, inspect, authGroup, false);
 		}
 		throw new Error('unauthorized');

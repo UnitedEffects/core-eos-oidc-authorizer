@@ -39,12 +39,26 @@ export default {
             policyDocument: policy('Allow', event.methodArn),
             context: { ...validated.decoded }
         };
-        if(validated.clientCredential === true) {
-            response.context.clientCredential = true;
+        if(config.INCLUDE_CONTEXT !== true) delete response.context;
+        else {
+            if(validated.clientCredential === true) {
+                response.context.clientCredential = true;
+            }
+            if(validated.user) {
+                response.context.user = validated.user;
+            }
+            const context = {};
+            // shift context to key/value with strings
+            Object.keys(response.context).map((key) => {
+                if(typeof response.context[key] !== 'string') {
+                    context[key] = JSON.stringify(response.context[key]);
+                } else {
+                    context[key] = response.context[key];
+                }
+            })
+            response.context = context;
         }
-        if(validated.user) {
-            response.context.user = validated.user;
-        }
+        if(config.ENV !== 'production') console.info(response); // for debug
         return response;
     }
 }

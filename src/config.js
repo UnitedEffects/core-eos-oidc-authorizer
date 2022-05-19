@@ -13,6 +13,7 @@ const config = {
     CLIENT_ID: process.env.CLIENT_ID || envVars.CLIENT_ID || null,
     CLIENT_SECRET: process.env.CLIENT_SECRET || envVars.CLIENT_SECRET || null,
     GET_USER: process.env.GET_USER || envVars.GET_USER || false,
+    INCLUDE_CONTEXT: process.env.INCLUDE_CONTEXT || envVars.INCLUDE_CONTEXT || true,
 };
 
 module.exports = config;
