@@ -1,6 +1,6 @@
 {
   "name": "core-eos-oidc-authorizer",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "AWS Gateway Authorizer designed to work with Core EOS OIDC solution",
   "main": "dist/index.js",
   "author": "United Effects LLL",

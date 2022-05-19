@@ -22,8 +22,8 @@ function findToken (event) {
         throw new Error('event.authorizationToken is missing');
     }
 
-    const bearer = event.authorizationToken.match(/^Bearer (.*)$/);
-    if (!bearer || bearer.length < 2) {
+    const bearer = event.authorizationToken.split(' ');
+    if(!bearer || bearer[0].toLowerCase() !== 'bearer' || bearer.length < 2) {
         throw new Error(`Invalid Authorization token - make sure it includes "Bearer YOURTOKEN" - received ${event.authorizationToken}`);
     }
     return bearer[1];

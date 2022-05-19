@@ -4,15 +4,14 @@ import jkwsClient from 'jwks-rsa';
 import axios from 'axios';
 
 const config = require('../config');
-
 const jwtCheck = /^([A-Za-z0-9\-_~+\/]+[=]{0,2})\.([A-Za-z0-9\-_~+\/]+[=]{0,2})(?:\.([A-Za-z0-9\-_~+\/]+[=]{0,2}))?$/;
 const CORE = config.CORE_URI;
 const JWKS_URI = config.JWKS_URI;
 const AUTH_GROUP = config.AUTH_GROUP;
 const PKCE = config.PKCE;
-const AUDIENCE = config.AUD;
+const AUDIENCE = (config.AUD === "") ? null : config.AUD;
 const CLIENT_ID = config.CLIENT_ID;
-const CLIENT_SECRET = config.CLIENT_SECRET;
+const CLIENT_SECRET = (config.CLIENT_SECRET === "") ? null : config.CLIENT_SECRET;
 const GET_USER = config.GET_USER;
 
 async function getUser(token) {
@@ -52,6 +51,7 @@ async function introspect(token) {
 		})
 	}
 	const result = await axios(options);
+	console.info(result);
 	return result.data;
 }
 
@@ -91,10 +91,6 @@ async function runDecodedChecks(token, issuer, decoded, authGroup, jwt) {
 		}
 	}
 
-	if(!decoded.sub) {
-		throw new Error('Subject ID must be part of the token');
-	}
-
 	if(GET_USER && jwt !== true) {
 		if(decoded.sub && decoded.client_id !== decoded.sub) {
 			let user;
@@ -112,7 +108,12 @@ async function runDecodedChecks(token, issuer, decoded, authGroup, jwt) {
 	}
 
 	if((decoded.client_id === decoded.sub) || (!decoded.sub && decoded.client_id)) {
+		decoded.sub = decoded.client_id;
 		return { clientCredential: true, decoded };
+	}
+
+	if(!decoded.sub) {
+		throw new Error('Subject ID must be part of the token');
 	}
 
 	return { clientCredential: false, decoded };
