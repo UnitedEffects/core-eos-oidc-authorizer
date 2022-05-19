@@ -55,7 +55,7 @@ Keep in mind, that the .env file is always a backup to local environment variabl
 * **CLIENT_SECRET**: (optional - not recommended) This is required if PKCE is false, opaque tokens are passed, and CLIENT_ID is provided. It is used to introspect opaque tokens. We typically recommend that you use PKCE Code Authorization flow (PKCE = true) to avoid having to pass secrets.
 * **PKCE**: (optional - recommended true) Proof Key for Code Exchange, used during code authorization flow and allows a client to exchange a code for the token without having to pass a client secret. Examples below use the PKCE Code Authorization flow.
 * **GET_USER**: (optional - not recommended) This will do a GET CORE_URI/AUTH_GROUP/me REST call using the token once validated to obtain scope limited user data. THIS WILL ONLY WORK WITH OPAQUE TOKENS AND IS OTHERWISE IGNORED.
-* **INCLUDE_CONTEXT**: (optional - recommended true) When true this will include the decoded token information in the context. KEEP IN MIND, context properties must be key/value strings. To that end, anything included in context that is not a string value (booleans, numbers, objects) are passwed through JSON.stringify first. You will need to use a JSON.parse(...) in your code to access those properties. 
+* **INCLUDE_CONTEXT**: (optional - recommended true) When true this will include the decoded token information in the context. KEEP IN MIND, context properties must be key/value strings. To that end, anything included in context that is not a string value (booleans, numbers, objects) are passed through JSON.stringify first. You will need to use a JSON.parse(...) in your code to access those properties. 
 
 ## Build
 
