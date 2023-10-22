@@ -1,6 +1,6 @@
 {
   "name": "core-eos-oidc-authorizer",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "AWS Gateway Authorizer designed to work with Core EOS OIDC solution",
   "main": "dist/index.js",
   "author": "United Effects LLL",
@@ -35,14 +35,14 @@
   ],
   "dependencies": {
     "axios": "^0.27.2",
-    "jsonwebtoken": "^9.0.0",
+    "jsonwebtoken": "^9.0.2",
     "jwks-rsa": "^2.1.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.6.4",
+    "@babel/cli": "^7.23.0",
     "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3",
-    "aws-sdk": "^2.1130.0",
+    "@babel/preset-env": "^7.23.2",
+    "aws-sdk": "^2.1478.0",
     "crypto": "^1.0.1",
     "lambda-local": "^2.0.2"
   }
