@@ -34,7 +34,7 @@
     "lambda"
   ],
   "dependencies": {
-    "axios": "^0.27.2",
+    "axios": "^1.6.0",
     "jsonwebtoken": "^9.0.2",
     "jwks-rsa": "^2.1.1"
   },
